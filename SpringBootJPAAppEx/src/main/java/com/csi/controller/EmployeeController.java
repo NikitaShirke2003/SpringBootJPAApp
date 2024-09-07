@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,15 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeServiceImpl.save(employee), HttpStatus.CREATED);
     }
 
+    @GetMapping("/sortbyname")
+
+    public ResponseEntity<List<Employee>> sortByName() {
+        return ResponseEntity.ok(employeeServiceImpl.findAll().stream().sorted(Comparator.comparing(Employee::getEmpName)).toList());
+    }
+
     @GetMapping("/findall")
     public ResponseEntity<List<Employee>> findAll() {
         return ResponseEntity.ok(employeeServiceImpl.findAll());
     }
+
 }
